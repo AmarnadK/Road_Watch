@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1f2328">
+  <title>Road Watch Kozhikode - report a pothole</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <h1>Road Watch Kozhikode</h1>
+    <p>Spotted a pothole? Photograph it, pin it, and your local panchayat will see it.</p>
+  </header>
+
+  <main>
+    <form id="report-form" novalidate>
+      <section class="step">
+        <h2>Photo of the pothole</h2>
+        <label class="photo-pick" id="photo-label">
+          <input type="file" id="photo" accept="image/*" capture="environment">
+          <img id="photo-preview" alt="Preview of your photo" hidden>
+          <span id="photo-hint">Tap to open the camera</span>
+        </label>
+      </section>
+
+      <section class="step">
+        <h2>Where is it?</h2>
+        <p id="geo-status" class="status" role="status">Waiting for your location...</p>
+        <div id="map" aria-label="Map. Drag the pin to adjust the location."></div>
+        <button type="button" id="locate-btn" class="secondary">Use my current location</button>
+        <p class="help">You can drag the pin if it is not exactly on the pothole.</p>
+      </section>
+
+      <section class="step">
+        <h2>Details</h2>
+        <label for="panchayat">Panchayat / municipality</label>
+        <select id="panchayat" required><option value="">Loading...</option></select>
+
+        <label for="severity">How bad is it?</label>
+        <select id="severity">
+          <option value="LOW">Minor - small and shallow</option>
+          <option value="MEDIUM" selected>Moderate - slows vehicles down</option>
+          <option value="HIGH">Large or deep - damages vehicles</option>
+          <option value="DANGEROUS">Dangerous - risk of accidents</option>
+        </select>
+
+        <label for="landmark">Nearest landmark <span class="opt">(optional)</span></label>
+        <input type="text" id="landmark" maxlength="200" placeholder="e.g. opposite the bus stop">
+
+        <label for="description">What should the engineer know?</label>
+        <textarea id="description" rows="3" maxlength="1000" placeholder="Size, which lane, how long it has been there"></textarea>
+      </section>
+
+      <section class="step">
+        <h2>Your contact <span class="opt">(optional)</span></h2>
+        <label for="name">Name</label>
+        <input type="text" id="name" maxlength="100" autocomplete="name">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" maxlength="20" autocomplete="tel">
+        <p class="help">Only panchayat officials can see this.</p>
+      </section>
+
+      <p id="form-error" class="error" role="alert" hidden></p>
+      <button type="submit" id="submit-btn" class="primary">Send report</button>
+    </form>
+
+    <section id="done" class="done" hidden>
+      <h2>Report received</h2>
+      <p>Your reference number is</p>
+      <p class="ref" id="ref"></p>
+      <p>Save it to check progress later.</p>
+      <button type="button" id="another-btn" class="secondary">Report another pothole</button>
+    </section>
+
+    <section class="track">
+      <h2>Check a report</h2>
+      <div class="track-row">
+        <input type="text" id="track-ref" inputmode="numeric" placeholder="Reference, e.g. RW-12" aria-label="Reference number">
+        <button type="button" id="track-btn" class="secondary">Check</button>
+      </div>
+      <p id="track-result" class="status" role="status"></p>
+    </section>
+  </main>
+
+  <footer>Road Watch Kozhikode. A student project, not an official government service.</footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
